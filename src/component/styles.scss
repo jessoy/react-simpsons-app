@@ -1,0 +1,14 @@
+html {
+    box-sizing: border-box;
+    background-color: #BED8E6;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    box-sizing: inherit;
+  }
+
+  .searchParams {
+      margin: 20px;
+  }

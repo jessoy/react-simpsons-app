@@ -1,0 +1,27 @@
+.character {
+  // background-color: red;
+  margin: 30px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  .name {
+    width: 30%;
+  }
+
+  .Right,
+  .Left {
+    width: 55%;
+    display: flex;
+    flex-direction: row;
+
+    .quote,
+    .image {
+      width: 50%;
+    }
+  }
+
+  .Left {
+    flex-direction: row-reverse;
+  }
+}
