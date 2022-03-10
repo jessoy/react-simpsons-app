@@ -11,7 +11,7 @@ class Containers extends Component {
         {data.map((item, index) => {
           return (
             <div className="character" key={index}>
-              <Character data={item} />
+              <Character data={item} onLike={this.props.onLike} hideCharacter={this.props.hideCharacter} />
             </div>
           );
         })}

@@ -8,12 +8,18 @@ class Character extends Component {
   state = { deleted: false };
 
   hideCharacter = () => {
-    this.setState({ deleted: !this.state.deleted });
+    // this.props.onLike(this.props.character);
+    this.setState({ deleted: !this.state.deleted })
+
+
+
   };
 
   render() {
-    const { data } = this.props;
+    const { data, onLike } = this.props;
     const { deleted } = this.state;
+
+    console.log(this.props)
 
     return (
       <>
@@ -21,7 +27,7 @@ class Character extends Component {
           <>
             <Name name={data.character} />
             <div className={data.characterDirection}>
-              <Quote quote={data.quote} />
+              <Quote quote={data.quote} onLike={onLike} character={data}/>
               <Image image={data.image} />
             </div>
             <Delete hideCharacter={this.hideCharacter}/>

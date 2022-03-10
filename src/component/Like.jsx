@@ -2,14 +2,16 @@ import React, { Component } from "react";
 
 class Like extends Component {
   render() {
+    const { character } = this.props;
+
     return (
       <>
         <button
           onClick={() => {
-            this.props.toggleText();
+            this.props.onLike(character);
           }}
         >
-          {this.props.liked ? "Dislike" : "Like"}
+          {character.liked ? "Dislike" : "Like"}
         </button>
       </>
     );

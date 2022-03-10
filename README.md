@@ -1,4 +1,4 @@
-# Simpsons React App
+# Simpsons Quote Generator
 
 Demonstrating use of:
 - state
@@ -6,6 +6,7 @@ Demonstrating use of:
 - components 
 - callbacks
 - lifting the state
+- Joi validation
 
 ## To-do's and Improvement
 
