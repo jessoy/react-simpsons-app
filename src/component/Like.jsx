@@ -2,10 +2,15 @@ import React, { Component } from "react";
 
 class Like extends Component {
   render() {
-      
     return (
       <>
-        <button>Like</button>
+        <button
+          onClick={() => {
+            this.props.toggleText();
+          }}
+        >
+          {this.props.liked ? "Dislike" : "Like"}
+        </button>
       </>
     );
   }

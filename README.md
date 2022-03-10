@@ -1,3 +1,21 @@
+# Simpsons React App
+
+Demonstrating use of:
+- state
+- props
+- components 
+- callbacks
+- lifting the state
+
+## To-do's and Improvement
+
+- ~~'like' button not working on reversed characters~~
+- once searched - characters are gone and irretreveable not just hidden --> inline style tag? display: none? - don't mutate state data
+- remove on click and do input link typing
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -68,11 +86,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-
-Demonstrating use of:
-state
-props
-components 
-callbacks
-lifting the state
