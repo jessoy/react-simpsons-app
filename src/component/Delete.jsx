@@ -2,13 +2,13 @@ import React, { Component } from "react";
 
 class Delete extends Component {
   render() {
-    const { character } = this.props;
+    const { characterData } = this.props;
 
     return (
       <div className="delete">
         <button
           onClick={() => {
-            this.props.hideCharacter(character);
+            this.props.hideCharacter(characterData);
           }}
         >
           Delete

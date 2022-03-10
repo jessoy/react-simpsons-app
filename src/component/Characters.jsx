@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import Character from "./Character";
 import "./characters.scss"
 
-class Containers extends Component {
+class Characters extends Component {
   render() {
-    const { data } = this.props;
+    const { data, onLike, hideCharacter } = this.props;
 
     return (
       <>
         {data.map((item, index) => {
           return (
             <div className="character" key={index}>
-              <Character data={item} onLike={this.props.onLike} hideCharacter={this.props.hideCharacter} />
+              <Character characterData={item} onLike={onLike} hideCharacter={hideCharacter} />
             </div>
           );
         })}
@@ -20,4 +20,4 @@ class Containers extends Component {
   }
 }
 
-export default Containers;
+export default Characters;

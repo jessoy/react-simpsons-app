@@ -2,16 +2,16 @@ import React, { Component } from "react";
 
 class Like extends Component {
   render() {
-    const { character } = this.props;
+    const { characterData } = this.props;
 
     return (
       <>
         <button
           onClick={() => {
-            this.props.onLike(character);
+            this.props.onLike(characterData);
           }}
         >
-          {character.liked ? "Dislike" : "Like"}
+          {characterData.liked ? "Dislike" : "Like"}
         </button>
       </>
     );

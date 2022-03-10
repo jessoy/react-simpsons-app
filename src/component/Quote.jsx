@@ -5,14 +5,14 @@ import Like from "./Like";
 class Quote extends Component {
 
   render() {
-    const { quote, onLike, character } = this.props;
+    const { onLike, characterData } = this.props;
 
     return (
       <div className="quote">
-        <p>{quote}</p>
+        <p>{characterData.quote}</p>
 
-        <Like onLike={onLike} character={character}/>
-        {character.liked ? <Text /> : null}
+        <Like onLike={onLike} characterData={characterData}/>
+        {characterData.liked ? <Text /> : null}
 
       </div>
     );

@@ -7,30 +7,20 @@ import Delete from "./Delete";
 class Character extends Component {
   state = { deleted: false };
 
-  hideCharacter = () => {
-    // this.props.onLike(this.props.character);
-    this.setState({ deleted: !this.state.deleted })
-
-
-
-  };
-
   render() {
-    const { data, onLike } = this.props;
+    const { characterData, onLike, hideCharacter } = this.props;
     const { deleted } = this.state;
-
-    console.log(this.props)
 
     return (
       <>
         {!deleted ? (
           <>
-            <Name name={data.character} />
-            <div className={data.characterDirection}>
-              <Quote quote={data.quote} onLike={onLike} character={data}/>
-              <Image image={data.image} />
+            <Name name={characterData.character} />
+            <div className={characterData.characterDirection}>
+              <Quote onLike={onLike} characterData={characterData}/>
+              <Image image={characterData.image} />
             </div>
-            <Delete hideCharacter={this.hideCharacter}/>
+            <Delete hideCharacter={hideCharacter} characterData={characterData}/>
           </>
         ) : null}
       </>

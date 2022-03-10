@@ -12,10 +12,14 @@ class App extends Component {
   }
 
   getApiData = async () => {
-    let result = await axios.get(
-      "https://thesimpsonsquoteapi.glitch.me/quotes?count=10"
-    );
-    this.setState({ data: result.data });
+    try {
+      let result = await axios.get(
+        "https://thesimpsonsquoteapi.glitch.me/quotes?count=10"
+      );
+      this.setState({ data: result.data });
+    } catch (errors) {
+      console.log(errors);
+    }
   };
 
   onInput = (e) => {
@@ -25,7 +29,8 @@ class App extends Component {
   onLike = (characterData) => {
     const currentIndex = this.state.data.findIndex((character) => {
       return (
-        characterData.character === character.character && characterData.quote === character.quote
+        characterData.character === character.character &&
+        characterData.quote === character.quote
       );
     });
 
@@ -33,24 +38,47 @@ class App extends Component {
 
     if (copy[currentIndex].liked === true) {
       copy[currentIndex].liked = undefined;
-      
-      let newCount = this.state.likedCount - 1;
-      this.setState({likedCount: newCount})
+      this.updateLikedCount(false);
     } else {
       copy[currentIndex].liked = true;
-
-      let newCount = this.state.likedCount + 1;
-      this.setState({likedCount: newCount})
+      this.updateLikedCount(true);
     }
 
     this.setState({ data: copy });
-    console.log(this.state)
+  };
+
+  updateLikedCount = (boolean) => {
+    let newCount = boolean
+      ? this.state.likedCount + 1
+      : this.state.likedCount - 1;
+    this.setState({ likedCount: newCount });
+  };
+
+  hideCharacter = (characterData) => {
+    const { data, likedCount } = this.state;
+
+    const deleteIndex = data.findIndex((character) => {
+      return (
+        characterData.character === character.character &&
+        characterData.quote === character.quote
+      );
+    });
+
+    this.setState({ deleteIndex: deleteIndex });
+
+    if (deleteIndex >= 0 && likedCount > 0) {
+      data.splice(deleteIndex, 1);
+      this.updateLikedCount(false);
+      this.setState({ deleteIndex: -1 });
+    } else {
+      data.splice(deleteIndex, 1);
+    }
   };
 
   render() {
-    const { data, searchTerm } = this.state;
+    const { data, searchTerm, likedCount } = this.state;
 
-    let filtered = [...this.state.data];
+    let filtered = [...data];
 
     if (searchTerm) {
       filtered = filtered.filter((item) =>
@@ -64,12 +92,16 @@ class App extends Component {
           <p>Search Here:</p>
           <input type="text" onInput={this.onInput}></input>
           <button onClick={this.onClick}>Search</button>
-          <p>You like {this.state.likedCount} quotes</p>
+          <p>You like {likedCount} quotes</p>
         </div>
 
         <div className="container">
           {data ? (
-            <Characters data={filtered} onLike={this.onLike} />
+            <Characters
+              data={filtered}
+              onLike={this.onLike}
+              hideCharacter={this.hideCharacter}
+            />
           ) : (
             <p>Awaiting Data</p>
           )}

@@ -1,9 +1,10 @@
 # Simpsons Quote Generator
 
 Demonstrating use of:
+
 - state
 - props
-- components 
+- components
 - callbacks
 - lifting the state
 - Joi validation
@@ -11,11 +12,9 @@ Demonstrating use of:
 ## To-do's and Improvement
 
 - ~~'like' button not working on reversed characters~~
-- once searched - characters are gone and irretreveable not just hidden --> inline style tag? display: none? - don't mutate state data
-- remove on click and do input link typing
-
-
-
+- ~~once searched - characters are gone and irretreveable not just hidden --> inline style tag? display: none? - don't mutate state data~~
+- ~~remove on click and do input link typing~~
+- delete button to be re-coded - count and container not synced
 
 # Getting Started with Create React App
 
