@@ -3,9 +3,20 @@ import React, { Component } from "react";
 import axios from "axios";
 import Characters from "./component/Characters";
 import "./component/styles.scss";
+import {
+  findCharacterIndex,
+  removeDuplicates,
+  compareCharacterName,
+} from "./component/utils/utils.js";
+import Joi from "joi";
 
 class App extends Component {
-  state = { data: [], likedCount: 0 };
+  state = { data: [] };
+  joiResult;
+
+  schema = {
+    searchTerm: Joi.string().required().min(3).label("searchTerm"),
+  };
 
   componentDidMount() {
     this.getApiData();
@@ -13,70 +24,59 @@ class App extends Component {
 
   getApiData = async () => {
     try {
-      let result = await axios.get(
+      let { data } = await axios.get(
         "https://thesimpsonsquoteapi.glitch.me/quotes?count=10"
       );
-      this.setState({ data: result.data });
+      const uniqueCharacters = removeDuplicates(data);
+      uniqueCharacters.sort(compareCharacterName);
+
+      this.setState({ data: uniqueCharacters });
     } catch (errors) {
       console.log(errors);
     }
   };
 
-  onInput = (e) => {
-    this.setState({ searchTerm: e.target.value });
+  onInput = async (e) => {
+    const data = { searchTerm: e.target.value };
+    this.setState(data);
+
+    const _joiInstance = Joi.object(this.schema);
+    try {
+      await _joiInstance.validateAsync(data, {
+        abortEarly: false,
+      });
+      this.setState({ errors: null });
+    } catch (errors) {
+      const errorsMod = {};
+
+      errors.details.forEach((error) => {
+        errorsMod[error.context.key] = error.message;
+      });
+      this.setState({ errors: errorsMod });
+    }
   };
 
   onLike = (characterData) => {
-    const currentIndex = this.state.data.findIndex((character) => {
-      return (
-        characterData.character === character.character &&
-        characterData.quote === character.quote
-      );
-    });
+    const { data } = this.state;
+    const copy = [...data];
 
-    const copy = [...this.state.data];
-
-    if (copy[currentIndex].liked === true) {
-      copy[currentIndex].liked = undefined;
-      this.updateLikedCount(false);
-    } else {
-      copy[currentIndex].liked = true;
-      this.updateLikedCount(true);
-    }
-
+    const currentIndex = findCharacterIndex(characterData, data);
+    copy[currentIndex].liked =
+      copy[currentIndex].liked === true ? undefined : true;
     this.setState({ data: copy });
   };
 
-  updateLikedCount = (boolean) => {
-    let newCount = boolean
-      ? this.state.likedCount + 1
-      : this.state.likedCount - 1;
-    this.setState({ likedCount: newCount });
-  };
-
   hideCharacter = (characterData) => {
-    const { data, likedCount } = this.state;
+    const { data } = this.state;
+    const copy = [...data];
 
-    const deleteIndex = data.findIndex((character) => {
-      return (
-        characterData.character === character.character &&
-        characterData.quote === character.quote
-      );
-    });
-
-    this.setState({ deleteIndex: deleteIndex });
-
-    if (deleteIndex >= 0 && likedCount > 0) {
-      data.splice(deleteIndex, 1);
-      this.updateLikedCount(false);
-      this.setState({ deleteIndex: -1 });
-    } else {
-      data.splice(deleteIndex, 1);
-    }
+    const deleteIndex = findCharacterIndex(characterData, data);
+    copy.splice(deleteIndex, 1);
+    this.setState({ data: copy });
   };
 
   render() {
-    const { data, searchTerm, likedCount } = this.state;
+    const { data, searchTerm } = this.state;
 
     let filtered = [...data];
 
@@ -86,13 +86,21 @@ class App extends Component {
       );
     }
 
+    const likedCount = data.filter((item) => {
+      return item.liked === true;
+    });
+
     return (
       <>
+        <h1>The Simpsons Quote Generator</h1>
         <div className="searchParams">
           <p>Search Here:</p>
-          <input type="text" onInput={this.onInput}></input>
+          <input type="text" name="searchTerm" onInput={this.onInput}></input>
+
           <button onClick={this.onClick}>Search</button>
-          <p>You like {likedCount} quotes</p>
+          <p>{this.state.errors ? this.state.errors.searchTerm : null}</p>
+          <p>You like {likedCount.length} quotes</p>
+          <button onClick={this.getApiData}>Reload Characters</button>
         </div>
 
         <div className="container">

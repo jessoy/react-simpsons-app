@@ -8,13 +8,15 @@ Demonstrating use of:
 - callbacks
 - lifting the state
 - Joi validation
+- class based
 
 ## To-do's and Improvement
 
 - ~~'like' button not working on reversed characters~~
 - ~~once searched - characters are gone and irretreveable not just hidden --> inline style tag? display: none? - don't mutate state data~~
 - ~~remove on click and do input link typing~~
-- delete button to be re-coded - count and container not synced
+- ~~delete button to be re-coded - count and container not synced~~
+- refactor buttons so template
 
 # Getting Started with Create React App
 
